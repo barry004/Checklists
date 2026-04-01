@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Hamilton Checklist</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    background: #f2f2f7;
+    padding: 20px 16px 40px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1c1c1e;
+  }
+
+  #reset-btn {
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #reset-btn:active { opacity: 0.75; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    padding: 13px 14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    transition: opacity 0.15s;
+  }
+
+  .item:active { opacity: 0.6; }
+
+  .radio {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #c7c7cc;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .item.done .radio {
+    background: #34c759;
+    border-color: #34c759;
+  }
+
+  .radio svg { display: none; }
+  .item.done .radio svg { display: block; }
+
+  .label {
+    font-size: 16px;
+    color: #1c1c1e;
+    line-height: 1.3;
+    transition: color 0.15s;
+  }
+
+  .item.done .label {
+    text-decoration: line-through;
+    color: #aeaeb2;
+  }
+
+  #progress {
+    text-align: center;
+    font-size: 14px;
+    color: #8e8e93;
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧳 Hamilton</h1>
+  <button id="reset-btn" onclick="resetAll()">Reset</button>
+</header>
+
+<div id="progress"></div>
+
+<div class="grid" id="checklist"></div>
+
+<script>
+const items = [
+  "Proper cable for charging iPad",
+  "Hotel",
+  "Airbuds",
+  "Snacks",
+  "Clothes",
+  "Toothpaste and toothbrush",
+  "Guitar",
+  "Picks",
+  "Slide",
+  "iPad",
+  "Chargers",
+  "Hearing aid charger",
+  "PJs",
+  "Shaving kit",
+  "Small scissors in shaving kit",
+  "Toothpicks",
+  "Books",
+  "Pen",
+  "Watch",
+  "Phone",
+  "Keys",
+  "Glasses",
+  "Library books",
+  "Plastic bags",
+  "Apple",
+  "Writing pad",
+  "Back belt",
+  "Sandals",
+  "Raincoat",
+  "Journal",
+  "Highlighter",
+  "Water bottles",
+  "Protein bars",
+  "Gym clothes",
+  "Vitamins",
+  "Magazines",
+  "Stockings",
+  "Metal straw",
+  "Coffee scoop",
+  "Bodum cover",
+  "Tea bags",
+  "Teeth",
+  "Close all files on desktop",
+  "MacBook",
+  "MacBook charger",
+  "Audio interface",
+  "Epiphone",
+  "Anker charger",
+  "Anker headphones",
+  "Bathing suits",
+  "Travel utensils"
+];
+
+const KEY = "hamilton_checklist";
+let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+function updateProgress() {
+  const done = Object.values(state).filter(Boolean).length;
+  document.getElementById("progress").textContent = `${done} of ${items.length} packed`;
+}
+
+function render() {
+  const grid = document.getElementById("checklist");
+  grid.innerHTML = "";
+  items.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "item" + (state[i] ? " done" : "");
+    div.innerHTML = `
+      <div class="radio">
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+          <path d="M1 5.5L5 9.5L13 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="label">${item}</span>`;
+    div.onclick = () => {
+      state[i] = !state[i];
+      save();
+      render();
+      updateProgress();
+    };
+    grid.appendChild(div);
+  });
+  updateProgress();
+}
+
+function resetAll() {
+  if (confirm("Reset all items?")) {
+    state = {};
+    save();
+    render();
+  }
+}
+
+render();
+</script>
+</body>
+</html>
