@@ -21,7 +21,7 @@
   }
 
   h1 {
-    font-size: 45px;
+    font-size: 24px;
     font-weight: 700;
     color: #1c1c1e;
   }
@@ -42,9 +42,9 @@
 
   .grid {
     display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
-grid-auto-flow: column;
-grid-template-rows: repeat(13, auto);
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(12, auto);
     gap: 6px;
   }
 
@@ -84,7 +84,7 @@ grid-template-rows: repeat(13, auto);
   .item.done .radio svg { display: block; }
 
   .label {
-    font-size: 22px;
+    font-size: 14px;
     color: #1c1c1e;
     line-height: 1.3;
   }
@@ -110,13 +110,13 @@ grid-template-rows: repeat(13, auto);
 </header>
 
 <div id="progress"></div>
-
 <div class="grid" id="checklist"></div>
 
 <script>
 const items = [
   // M
   "Hotel",
+  "iPad cable",
   "iPad",
   "Journal",
   // B
@@ -130,7 +130,7 @@ const items = [
   "Plastic bags",
   "Sandals",
   "Shaving kit",
-  "Scissors",
+  "Small scissors",
   "Teeth",
   "Toothpaste/brush",
   "Toothpicks",
