@@ -235,12 +235,15 @@ function resetAll() {
 
 render();
 
-  const NOTES_KEY = "hamilton_notes"; // change to "cycling_notes" for Home_Cycling.html
+setTimeout(() => {
+  const NOTES_KEY = "hamilton_notes";
   const notesEl = document.getElementById("notes-textarea");
   notesEl.value = localStorage.getItem(NOTES_KEY) || "";
   notesEl.addEventListener("input", () => {
     localStorage.setItem(NOTES_KEY, notesEl.value);
   });
+}, 0);
+
 </script>
 
 <div id="notes-section">
