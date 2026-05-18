@@ -44,7 +44,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
-    grid-template-rows: repeat(15, auto);
+    grid-template-rows: repeat(13, auto);
     gap: 6px;
   }
 
@@ -84,7 +84,7 @@
   .item.done .radio svg { display: block; }
 
   .label {
-    font-size: 24px;
+    font-size: 16px;
     color: #1c1c1e;
     line-height: 1.3;
   }
@@ -100,6 +100,31 @@
     color: #8e8e93;
     margin-bottom: 8px;
   }
+
+  #notes-section {
+    margin-top: 16px;
+    width: 50%;
+  }
+
+  #notes-section label {
+    display: block;
+    font-size: 13px;
+    color: #8e8e93;
+    margin-bottom: 6px;
+  }
+
+  #notes-textarea {
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    border: 1px solid #c7c7cc;
+    padding: 10px;
+    font-size: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    resize: vertical;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  }
 </style>
 </head>
 <body>
@@ -111,6 +136,11 @@
 
 <div id="progress"></div>
 <div class="grid" id="checklist"></div>
+
+<div id="notes-section">
+  <label>Notes for next update</label>
+  <textarea id="notes-textarea" placeholder="e.g. add rain pants, remove X..."></textarea>
+</div>
 
 <script>
 const items = [
@@ -213,6 +243,15 @@ function resetAll() {
 }
 
 render();
+
+setTimeout(() => {
+  const NOTES_KEY = "cycling_notes";
+  const notesEl = document.getElementById("notes-textarea");
+  notesEl.value = localStorage.getItem(NOTES_KEY) || "";
+  notesEl.addEventListener("input", () => {
+    localStorage.setItem(NOTES_KEY, notesEl.value);
+  });
+}, 0);
 </script>
 </body>
 </html>
